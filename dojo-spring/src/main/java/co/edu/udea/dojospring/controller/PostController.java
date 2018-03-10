@@ -39,4 +39,22 @@ public class PostController{
         );
     }
     
+    @PutMapping("/post/{id}")
+    public Post updatePost(
+        @PathVariable(value="id") Long postId,
+        @Valid @RequestBody Post postDetails){
+            Post postNote = post.findById(postId);
+            postNote.setTitle(postDetails.getTitle());
+            postNote.setContent(postDetails.getContent());
+            return post.save(postNote);
+        }
+    @DeleteMapping("/post/{id}")
+    public ResponseEntity<?> deletePost(
+        @PathVariable(value="id") Long postId){
+            Post post = this.post.findById(postId)
+            .orElseThrow(() ->new ResourceNotFoundException(
+                "Post", "id", postId));
+            this.post.delete(post);
+            return ResponseEntity.ok().build();
+        } 
 }

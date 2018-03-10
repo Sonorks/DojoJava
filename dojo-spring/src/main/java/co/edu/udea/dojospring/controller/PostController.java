@@ -14,6 +14,29 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 
-public class PostController{
 
+
+@RestController
+@RequestMapping("/api")
+public class PostController{
+    @Autowired
+    PostRepository post;
+
+    @GetMapping("/posts")
+    public List<Post> getAllPosts(){
+        return post.findAll();
+    }
+
+    @PostMapping("/post")
+    public Post createPost(@Valid @RequestBody Post post){
+        return this.post.save(post);
+    }
+
+    @GetMapping("/post/{id}")
+    public Post getPostById(@PathVariable(value = "id") Long postId){
+        return post.findById(postId).orElseThrow(
+            () => new ResourceNotFoundException("Post", "id", postId)
+        );
+    }
+    
 }

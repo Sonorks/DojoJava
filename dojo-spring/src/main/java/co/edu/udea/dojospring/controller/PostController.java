@@ -43,7 +43,9 @@ public class PostController{
     public Post updatePost(
         @PathVariable(value="id") Long postId,
         @Valid @RequestBody Post postDetails){
-            Post postNote = post.findById(postId);
+            Post postNote = post.findById(postId)
+            .orElseThrow(() ->new ResourceNotFoundException(
+                "Post", "id", postId));;
             postNote.setTitle(postDetails.getTitle());
             postNote.setContent(postDetails.getContent());
             return post.save(postNote);

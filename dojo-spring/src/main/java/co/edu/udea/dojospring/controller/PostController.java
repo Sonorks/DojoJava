@@ -35,7 +35,7 @@ public class PostController{
     @GetMapping("/post/{id}")
     public Post getPostById(@PathVariable(value = "id") Long postId){
         return post.findById(postId).orElseThrow(
-            () => new ResourceNotFoundException("Post", "id", postId)
+            () -> new ResourceNotFoundException("Post", "id", postId)
         );
     }
     
